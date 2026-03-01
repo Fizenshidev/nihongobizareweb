@@ -195,11 +195,100 @@ function startMultiChoiceQuiz(title, questions) {
                     </div>
                 `;
                 document.getElementById('closeQuiz').addEventListener('click', () => modal.style.display = 'none');
+                // increment practice count for profile stats
+                try { incrementPracticeCount(); } catch(e) { console.warn(e); }
             }
         });
     }
     renderQuestion();
     modal.style.display = 'block';
+}
+
+// Update profile stats helper to increment practicesCompleted
+function incrementPracticeCount() {
+    try {
+        const profile = getUserProfile() || {};
+        profile.practicesCompleted = (profile.practicesCompleted || 0) + 1;
+        saveUserProfile(profile);
+    } catch (e) {
+        console.warn('Could not update profile stats', e);
+    }
+}
+
+// VOCAB POOL — Japanese word and Indonesian meaning
+const VOCAB_POOL = [
+    {jp: 'りんご', id: 'apel'},
+    {jp: 'みず', id: 'air'},
+    {jp: 'ねこ', id: 'kucing'},
+    {jp: 'いぬ', id: 'anjing'},
+    {jp: 'たべる', id: 'makan'},
+    {jp: 'のむ', id: 'minum'},
+    {jp: 'みる', id: 'melihat'},
+    {jp: 'いく', id: 'pergi'},
+    {jp: 'くる', id: 'datang'},
+    {jp: 'はなす', id: 'berbicara'},
+    {jp: 'よむ', id: 'membaca'},
+    {jp: 'かく', id: 'menulis'},
+    {jp: 'ねる', id: 'tidur'},
+    {jp: 'おきる', id: 'bangun'},
+    {jp: 'はしる', id: 'lari'},
+    {jp: 'あるく', id: 'jalan'},
+    {jp: 'くるま', id: 'mobil'},
+    {jp: 'じてんしゃ', id: 'sepeda'},
+    {jp: 'でんしゃ', id: 'kereta'},
+    {jp: 'バス', id: 'bus'},
+    {jp: 'まち', id: 'kota'},
+    {jp: 'いえ', id: 'rumah'},
+    {jp: 'がっこう', id: 'sekolah'},
+    {jp: 'せんせい', id: 'guru'},
+    {jp: 'がくせい', id: 'mahasiswa'},
+    {jp: 'ともだち', id: 'teman'},
+    {jp: 'せかい', id: 'dunia'},
+    {jp: 'てんき', id: 'cuaca'},
+    {jp: 'あめ', id: 'hujan'},
+    {jp: 'ゆき', id: 'salju'},
+    {jp: 'くもり', id: 'mendung'},
+    {jp: 'きょう', id: 'hari ini'},
+    {jp: 'あした', id: 'besok'},
+    {jp: 'きのう', id: 'kemarin'},
+    {jp: 'ほん', id: 'buku'},
+    {jp: 'ざっし', id: 'majalah'},
+    {jp: 'でんわ', id: 'telepon'},
+    {jp: 'てがみ', id: 'surat'},
+    {jp: 'おかね', id: 'uang'},
+    {jp: 'しごと', id: 'pekerjaan'},
+    {jp: 'やすみ', id: 'libur'},
+    {jp: 'にく', id: 'daging'},
+    {jp: 'さかな', id: 'ikan'},
+    {jp: 'たまご', id: 'telur'},
+    {jp: 'やさい', id: 'sayuran'},
+    {jp: 'くだもの', id: 'buah'},
+    {jp: 'みせ', id: 'toko'},
+    {jp: 'しろ', id: 'putih'},
+    {jp: 'くろ', id: 'hitam'}
+];
+
+function startVocabQuiz() {
+    const pool = VOCAB_POOL.slice();
+    if (pool.length === 0) return;
+
+    const count = Math.min(pool.length, Math.floor(Math.random() * (20 - 10 + 1)) + 10); // 10-20
+    const items = shuffle(pool).slice(0, count);
+
+    // Build questions with 4 choices (1 correct + 3 random wrong meanings)
+    const questions = items.map(item => {
+        const others = shuffle(pool.filter(p => p.jp !== item.jp)).slice(0, 3).map(o => o.id);
+        const choices = shuffle([item.id, ...others]);
+        const answer = choices.indexOf(item.id);
+        return {
+            question: `Apa arti dari "${item.jp}"?`,
+            choices: choices,
+            answer: answer
+        };
+    });
+
+    // Start the multi-choice quiz (this will also update modal visibility)
+    startMultiChoiceQuiz('📚 Kosakata Quiz', questions);
 }
 
 const vocabQuestions = [
@@ -323,7 +412,7 @@ function startPractice(type) {
         return;
     }
     if (type === 'vocab') {
-        startMultiChoiceQuiz('📚 Kosakata Quiz', vocabQuestions);
+        startVocabQuiz();
         return;
     }
     if (type === 'grammar') {
