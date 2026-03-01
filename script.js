@@ -387,7 +387,7 @@ function startKanjiQuiz(list) {
         practiceArea.innerHTML = `
             <div class="kana-quiz">
                 <p style="color:var(--text-light); margin-bottom:0.5rem;">Pertanyaan ${index+1} dari ${items.length}</p>
-                <div style="font-size:4rem; text-align:center; margin:1rem 0;">${char}</div>
+                <div class="kanji-handwritten">${char}</div>
                 <div style="text-align:center; color:var(--text-light); margin-bottom:0.5rem;">${promptHint}</div>
                 <div style="display:flex; gap:0.5rem; justify-content:center; align-items:center;">
                     <input id="answerInput" type="text" placeholder="Tulis romaji atau hiragana..." style="padding:0.6rem 0.8rem; width:60%; border:1px solid var(--border-color); border-radius:6px; font-size:1rem; text-align:center;" />

@@ -1334,6 +1334,22 @@ body.dark .achievement-card {
     }
 }
 
+/* Handwritten-style kanji display */
+.kanji-handwritten {
+    font-family: 'Kosugi Maru', 'Sawarabi Mincho', 'Yu Mincho', 'Hiragino Mincho ProN', 'MS Mincho', serif;
+    font-size: 5rem;
+    text-align: center;
+    margin: 1rem 0;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.02);
+}
+
+@media (max-width: 768px) {
+    .kanji-handwritten { font-size: 3.2rem; }
+}
+
 @media (max-width: 480px) {
     .section-title {
         font-size: 1.5rem;
