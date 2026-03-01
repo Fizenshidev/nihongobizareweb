@@ -1,25 +1,37 @@
 // ============== THEME TOGGLE ============== 
 const themeToggle = document.getElementById('themeToggle');
+// Expose updateThemeIcon globally so other modules can update the button
+window.updateThemeIcon = function(isDark) {
+    if (!themeToggle) return;
+    themeToggle.textContent = isDark ? '☀️' : '🌙';
+};
+
 if (themeToggle) {
     // Check saved theme preference or system preference
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.body.classList.toggle('dark', savedTheme === 'dark');
-        updateThemeIcon(savedTheme === 'dark');
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (savedTheme === 'dark') {
         document.body.classList.add('dark');
-        updateThemeIcon(true);
+        window.updateThemeIcon(true);
+    } else if (savedTheme === 'light') {
+        document.body.classList.remove('dark');
+        window.updateThemeIcon(false);
+    } else if (savedTheme === 'auto') {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.classList.toggle('dark', prefersDark);
+        window.updateThemeIcon(prefersDark);
+    } else {
+        // No saved theme — use system preference
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.classList.toggle('dark', prefersDark);
+        window.updateThemeIcon(prefersDark);
     }
 
     themeToggle.addEventListener('click', () => {
-        const isDark = document.body.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        updateThemeIcon(isDark);
+        // Toggle between dark and light explicitly (click does not select 'auto')
+        const isDarkNow = document.body.classList.toggle('dark');
+        localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
+        window.updateThemeIcon(isDarkNow);
     });
-
-    function updateThemeIcon(isDark) {
-        themeToggle.textContent = isDark ? '☀️' : '🌙';
-    }
 }
 
 // ============== AUTHENTICATION FUNCTIONS ==============

@@ -630,24 +630,5 @@ if (!document.querySelector('style[data-animations]')) {
 console.log('%cNihongo Bizzare', 'color: #4a7c7e; font-size: 20px; font-weight: bold;');
 console.log('%cSelamat datang di platform belajar bahasa Jepang terbaik! 🎌', 'color: #5a7577; font-size: 14px;');
 
-// ============== THEME TOGGLE ==============
-const themeToggleBtn = document.getElementById('themeToggle');
-function applyTheme(dark) {
-    if (dark) {
-        document.body.classList.add('dark');
-        if (themeToggleBtn) themeToggleBtn.textContent = '☀️';
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.body.classList.remove('dark');
-        if (themeToggleBtn) themeToggleBtn.textContent = '🌙';
-        localStorage.setItem('theme', 'light');
-    }
-}
-
-if (themeToggleBtn) {
-    const saved = localStorage.getItem('theme');
-    applyTheme(saved === 'dark');
-    themeToggleBtn.addEventListener('click', () => {
-        applyTheme(!document.body.classList.contains('dark'));
-    });
-}
+// Theme handling is centralized in auth.js. profile.js updates and localStorage
+// is used to persist the user's theme preference. No duplicate logic here.

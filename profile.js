@@ -147,15 +147,22 @@ function applyThemePreference(theme) {
     
     if (theme === 'dark') {
         body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        if (window.updateThemeIcon) window.updateThemeIcon(true);
     } else if (theme === 'light') {
         body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        if (window.updateThemeIcon) window.updateThemeIcon(false);
     } else if (theme === 'auto') {
         // Auto theme based on system preference
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             body.classList.add('dark');
+            if (window.updateThemeIcon) window.updateThemeIcon(true);
         } else {
             body.classList.remove('dark');
+            if (window.updateThemeIcon) window.updateThemeIcon(false);
         }
+        localStorage.setItem('theme', 'auto');
     }
 }
 
