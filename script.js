@@ -1,7 +1,7 @@
 // ============== NAVIGATION ============== 
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
+const navLinks = document.querySelectorAll('.nav-link:not(.logout-btn)');
 
 // Toggle mobile menu
 hamburger.addEventListener('click', () => {
@@ -13,9 +13,11 @@ navLinks.forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
         
-        // Update active link
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
+        // Update active link (only for non-auth links)
+        if (!link.closest('.auth-menu') && !link.closest('.no-auth-menu')) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        }
     });
 });
 

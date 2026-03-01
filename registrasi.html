@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi - Nihongo Bizzare</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>Nihongo Bizzare</h1>
+                <p class="tagline">belajar bahasa jepang dengan tenang</p>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+            </ul>
+            <button id="themeToggle" class="btn" aria-label="Toggle theme">🌙</button>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Section -->
+    <section class="section auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Buat Akun Baru</h2>
+                    <p class="subtitle-auth">Bergabunglah dengan ribuan pelajar bahasa Jepang lainnya</p>
+                    
+                    <form id="registrasiForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="fullname">Nama Lengkap</label>
+                            <input type="text" id="fullname" name="fullname" required placeholder="Masukkan nama lengkap">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="nama@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required placeholder="Minimal 8 karakter">
+                            <small class="password-hint">Password harus minimal 8 karakter</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm-password">Konfirmasi Password</label>
+                            <input type="password" id="confirm-password" name="confirm-password" required placeholder="Ulangi password">
+                        </div>
+
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">Saya setuju dengan Syarat & Ketentuan</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">Daftar</button>
+                    </form>
+
+                    <div class="divider">
+                        <span>atau</span>
+                    </div>
+
+                    <!-- Google Sign-In Button -->
+                    <div id="googleSignInButton" class="google-signin-wrapper"></div>
+
+                    <p class="auth-footer">
+                        Sudah punya akun? <a href="login.html">Masuk di sini</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Nihongo Bizzare. Semua hak dilindungi.</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        // Initialize Google Sign-In
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: 'YOUR_GOOGLE_CLIENT_ID_HERE',
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById('googleSignInButton'),
+                { theme: 'outline', size: 'large', width: '100%' }
+            );
+        };
+
+        function handleCredentialResponse(response) {
+            const userData = parseJwt(response.credential);
+            loginWithGoogle(userData);
+        }
+
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        function loginWithGoogle(userData) {
+            const user = {
+                id: userData.sub,
+                email: userData.email,
+                name: userData.name,
+                picture: userData.picture
+            };
+            localStorage.setItem('user', JSON.stringify(user));
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

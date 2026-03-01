@@ -19,6 +19,14 @@
                 <li><a href="#article" class="nav-link">Article</a></li>
                 <li><a href="#latihan" class="nav-link">Latihan</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
+                <li id="authMenu" class="auth-menu">
+                    <a href="profile.html" class="nav-link">👤 <span id="userName">Profile</span></a>
+                    <a href="#" id="logoutBtn" class="nav-link logout-btn">Logout</a>
+                </li>
+                <li id="noAuthMenu" class="no-auth-menu">
+                    <a href="login.html" class="nav-link">Login</a>
+                    <a href="registrasi.html" class="nav-link btn btn-primary">Daftar</a>
+                </li>
             </ul>
             <button id="themeToggle" class="btn" aria-label="Toggle theme">🌙</button>
             <div class="hamburger">
@@ -240,6 +248,32 @@
         </div>
     </footer>
 
+    <script src="auth.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Update navbar based on login status
+        window.addEventListener('load', function() {
+            const user = getCurrentUser();
+            const authMenu = document.getElementById('authMenu');
+            const noAuthMenu = document.getElementById('noAuthMenu');
+            
+            if (user) {
+                authMenu.style.display = 'flex';
+                noAuthMenu.style.display = 'none';
+                document.getElementById('userName').textContent = user.name;
+                
+                // Handle logout
+                document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Apakah Anda yakin ingin logout?')) {
+                        logoutUser();
+                    }
+                });
+            } else {
+                authMenu.style.display = 'none';
+                noAuthMenu.style.display = 'flex';
+            }
+        });
+    </script>
 </body>
 </html>

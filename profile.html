@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Nihongo Bizzare</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>Nihongo Bizzare</h1>
+                <p class="tagline">belajar bahasa jepang dengan tenang</p>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#article" class="nav-link">Article</a></li>
+                <li><a href="index.html#latihan" class="nav-link">Latihan</a></li>
+                <li><a href="profile.html" class="nav-link active">Profile</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="#" id="logoutBtn" class="nav-link logout-btn">Logout</a></li>
+            </ul>
+            <button id="themeToggle" class="btn" aria-label="Toggle theme">🌙</button>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <section class="section profile-section">
+        <div class="container">
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img id="profilePicture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234a7c7e'/%3E%3Ctext x='50' y='60' font-size='40' fill='white' text-anchor='middle' font-family='Arial'%3E👤%3C/text%3E%3C/svg%3E" alt="Profile Picture">
+                    </div>
+                    <div class="profile-info">
+                        <h2 id="userName">Nama Pengguna</h2>
+                        <p id="userEmail" class="user-email">email@example.com</p>
+                        <p class="member-since" id="memberSince">Member sejak Maret 2026</p>
+                    </div>
+                </div>
+
+                <!-- Profile Tabs -->
+                <div class="profile-tabs">
+                    <button class="tab-button active" data-tab="progress">📊 Progress</button>
+                    <button class="tab-button" data-tab="settings">⚙️ Pengaturan</button>
+                    <button class="tab-button" data-tab="achievements">🏆 Pencapaian</button>
+                </div>
+
+                <!-- Tab Contents -->
+                <div class="profile-content">
+                    <!-- Progress Tab -->
+                    <div id="progress" class="tab-content active">
+                        <h3>Statistik Pembelajaran Anda</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">📖</div>
+                                <div class="stat-info">
+                                    <h4>Artikel Dibaca</h4>
+                                    <p class="stat-number" id="articlesRead">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">✍️</div>
+                                <div class="stat-info">
+                                    <h4>Latihan Selesai</h4>
+                                    <p class="stat-number" id="practicesCompleted">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🔥</div>
+                                <div class="stat-info">
+                                    <h4>Hari Berturut-turut</h4>
+                                    <p class="stat-number" id="streakDays">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">⏱️</div>
+                                <div class="stat-info">
+                                    <h4>Total Waktu Belajar</h4>
+                                    <p class="stat-number" id="totalLearningTime">0h</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Learning Progress -->
+                        <div class="learning-progress">
+                            <h4>Progress per Kategori</h4>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span>Hiragana</span>
+                                    <span id="hiraganaProgress">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="hiraganaFill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span>Katakana</span>
+                                    <span id="katakanaProgress">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="katakanaFill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span>Kosakata</span>
+                                    <span id="vocabularyProgress">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="vocabularyFill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span>Partikel</span>
+                                    <span id="particlesProgress">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="particlesFill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div id="settings" class="tab-content">
+                        <h3>Pengaturan Akun</h3>
+                        <form id="settingsForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="fullname-edit">Nama Lengkap</label>
+                                <input type="text" id="fullname-edit" name="fullname" placeholder="Masukkan nama lengkap">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email-edit">Email</label>
+                                <input type="email" id="email-edit" name="email" placeholder="Masukkan email" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bio">Bio / Tentang Anda</label>
+                                <textarea id="bio" name="bio" rows="4" placeholder="Ceritakan tentang diri Anda..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Preferensi Tema</label>
+                                <select id="themePreference">
+                                    <option value="light">Mode Terang</option>
+                                    <option value="dark">Mode Gelap</option>
+                                    <option value="auto">Otomatis</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    Terima notifikasi email
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </form>
+
+                        <div class="danger-zone">
+                            <h4>⚠️ Zona Berbahaya</h4>
+                            <button id="deleteAccountBtn" class="btn btn-danger">Hapus Akun</button>
+                        </div>
+                    </div>
+
+                    <!-- Achievements Tab -->
+                    <div id="achievements" class="tab-content">
+                        <h3>Pencapaian Anda</h3>
+                        <div class="achievements-grid">
+                            <div class="achievement-card unlocked">
+                                <div class="achievement-icon">🎯</div>
+                                <h4>Pemula</h4>
+                                <p>Mulai pembelajaran pertama Anda</p>
+                            </div>
+                            <div class="achievement-card unlocked">
+                                <div class="achievement-icon">📚</div>
+                                <h4>Pembaca Setia</h4>
+                                <p>Baca 5 artikel</p>
+                            </div>
+                            <div class="achievement-card">
+                                <div class="achievement-icon">✍️</div>
+                                <h4>Praktisi Rajin</h4>
+                                <p>Selesaikan 10 latihan</p>
+                            </div>
+                            <div class="achievement-card">
+                                <div class="achievement-icon">🔥</div>
+                                <h4>Konsisten</h4>
+                                <p>Belajar 7 hari berturut-turut</p>
+                            </div>
+                            <div class="achievement-card">
+                                <div class="achievement-icon">⭐</div>
+                                <h4>Ahli Hiragana</h4>
+                                <p>Kuasai semua hiragana</p>
+                            </div>
+                            <div class="achievement-card">
+                                <div class="achievement-icon">💎</div>
+                                <h4>Master Jepang</h4>
+                                <p>Raih semua pencapaian</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Nihongo Bizzare. Semua hak dilindungi.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>
