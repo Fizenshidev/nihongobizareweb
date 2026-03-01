@@ -316,18 +316,81 @@ const grammarQuestions = [
 const KANJI_N5 = Array.from({length:111},(_,i)=>String.fromCharCode(0x4E00+i));
 const KANJI_N4 = Array.from({length:300},(_,i)=>String.fromCharCode(0x4E00+111+i));
 
+/* Small readings map for common kanji (hiragana + romaji) - extend as needed */
+const KANJI_READINGS = {
+    '日': {hiragana: 'にち', romaji: 'nichi'},
+    '一': {hiragana: 'いち', romaji: 'ichi'},
+    '国': {hiragana: 'くに', romaji: 'kuni'},
+    '人': {hiragana: 'ひと', romaji: 'hito'},
+    '年': {hiragana: 'ねん', romaji: 'nen'},
+    '大': {hiragana: 'だい', romaji: 'dai'},
+    '十': {hiragana: 'じゅう', romaji: 'juu'},
+    '二': {hiragana: 'に', romaji: 'ni'},
+    '本': {hiragana: 'ほん', romaji: 'hon'},
+    '中': {hiragana: 'なか', romaji: 'naka'},
+    '長': {hiragana: 'ちょう', romaji: 'cho'},
+    '出': {hiragana: 'でる', romaji: 'deru'},
+    '三': {hiragana: 'さん', romaji: 'san'},
+    '見': {hiragana: 'みる', romaji: 'miru'},
+    '月': {hiragana: 'つき', romaji: 'tsuki'},
+    '分': {hiragana: 'ふん', romaji: 'fun'},
+    '前': {hiragana: 'まえ', romaji: 'mae'},
+    '生': {hiragana: 'せい', romaji: 'sei'},
+    '五': {hiragana: 'ご', romaji: 'go'},
+    '間': {hiragana: 'あいだ', romaji: 'aida'},
+    '上': {hiragana: 'うえ', romaji: 'ue'},
+    '東': {hiragana: 'ひがし', romaji: 'higashi'},
+    '四': {hiragana: 'よん', romaji: 'yon'},
+    '今': {hiragana: 'いま', romaji: 'ima'},
+    '金': {hiragana: 'きん', romaji: 'kin'},
+    '九': {hiragana: 'きゅう', romaji: 'kyuu'},
+    '入': {hiragana: 'いり', romaji: 'iri'},
+    '学': {hiragana: 'がく', romaji: 'gaku'},
+    '高': {hiragana: 'たか', romaji: 'taka'},
+    '円': {hiragana: 'えん', romaji: 'en'},
+    '子': {hiragana: 'こ', romaji: 'ko'},
+    '外': {hiragana: 'そと', romaji: 'soto'},
+    '八': {hiragana: 'はち', romaji: 'hachi'},
+    '六': {hiragana: 'ろく', romaji: 'roku'},
+    '下': {hiragana: 'した', romaji: 'shita'},
+    '来': {hiragana: 'くる', romaji: 'kuru'},
+    '気': {hiragana: 'き', romaji: 'ki'},
+    '小': {hiragana: 'ちいさい', romaji: 'chiisai'},
+    '七': {hiragana: 'なな', romaji: 'nana'},
+    '山': {hiragana: 'やま', romaji: 'yama'},
+    '話': {hiragana: 'はなす', romaji: 'hanasu'},
+    '女': {hiragana: 'おんな', romaji: 'onna'},
+    '北': {hiragana: 'きた', romaji: 'kita'},
+    '午': {hiragana: 'ご', romaji: 'go'},
+    '百': {hiragana: 'ひゃく', romaji: 'hyaku'},
+    '書': {hiragana: 'かく', romaji: 'kaku'},
+    '先': {hiragana: 'さき', romaji: 'saki'},
+    '名': {hiragana: 'な', romaji: 'na'},
+    '川': {hiragana: 'かわ', romaji: 'kawa'},
+    '千': {hiragana: 'せん', romaji: 'sen'},
+    '水': {hiragana: 'みず', romaji: 'mizu'},
+    '半': {hiragana: 'はん', romaji: 'han'},
+    '男': {hiragana: 'おとこ', romaji: 'otoko'},
+    '外': {hiragana: 'そと', romaji: 'soto'},
+    '電': {hiragana: 'でん', romaji: 'den'}
+};
+
 function startKanjiQuiz(list) {
     const items = shuffle(list).slice(0, list.length);
     let index=0, score=0;
     practiceTitle.textContent = `🈶 Latihan Kanji (${list===KANJI_N5? 'N5':'N4'})`;
     function render() {
         const char = items[index];
+        const reading = KANJI_READINGS[char];
+        const promptHint = reading ? 'Tulis romaji atau hiragana dari kanji ini' : 'Tulis karakter yang sama atau bacaannya (fallback)';
+
         practiceArea.innerHTML = `
             <div class="kana-quiz">
                 <p style="color:var(--text-light); margin-bottom:0.5rem;">Pertanyaan ${index+1} dari ${items.length}</p>
                 <div style="font-size:4rem; text-align:center; margin:1rem 0;">${char}</div>
+                <div style="text-align:center; color:var(--text-light); margin-bottom:0.5rem;">${promptHint}</div>
                 <div style="display:flex; gap:0.5rem; justify-content:center; align-items:center;">
-                    <input id="answerInput" type="text" placeholder="Tulis karakter sama..." style="padding:0.6rem 0.8rem; width:60%; border:1px solid var(--border-color); border-radius:6px; font-size:1rem; text-align:center;" />
+                    <input id="answerInput" type="text" placeholder="Tulis romaji atau hiragana..." style="padding:0.6rem 0.8rem; width:60%; border:1px solid var(--border-color); border-radius:6px; font-size:1rem; text-align:center;" />
                     <button id="submitAnswer" class="btn btn-primary">Cek</button>
                 </div>
                 <div id="feedback" style="text-align:center; margin-top:1rem; color:var(--text-light);"></div>
@@ -338,15 +401,31 @@ function startKanjiQuiz(list) {
         const feedback = document.getElementById('feedback');
         input.focus();
         function check() {
-            const val=input.value.trim();
-            if(val===char){score+=5;feedback.textContent='Benar! ✅';feedback.style.color='#2ecc71';}
-            else {feedback.textContent=`Salah — seharusnya ${char}`;feedback.style.color='#e74c3c';}
+            const val=input.value.trim().toLowerCase();
+            let correct = false;
+            if (reading) {
+                const romaji = (reading.romaji || '').toLowerCase();
+                const hira = (reading.hiragana || '').toLowerCase();
+                if (val === romaji || val === hira) correct = true;
+            } else {
+                // fallback: accept exact kanji match
+                if (val === char) correct = true;
+            }
+
+            if(correct){score+=5;feedback.textContent='Benar! ✅';feedback.style.color='#2ecc71';}
+            else {
+                const correctMsg = reading ? `${reading.hiragana} (${reading.romaji})` : char;
+                feedback.textContent=`Salah — jawaban: ${correctMsg}`;
+                feedback.style.color='#e74c3c';
+            }
             submit.disabled=true;
             setTimeout(()=>{
                 index++;
                 if(index<items.length){render();}
-                else{practiceArea.innerHTML=`<div style="text-align:center; padding:1rem;"><h3 style="color:var(--primary-color);">Selesai!</h3><p style="font-size:1.1rem; color:var(--text-light);">Skor Anda: <strong>${score} / ${items.length*5}</strong></p><button id="closeQuiz" class="btn btn-primary">Tutup</button></div>`;
+                else{
+                    practiceArea.innerHTML=`<div style="text-align:center; padding:1rem;"><h3 style="color:var(--primary-color);">Selesai!</h3><p style="font-size:1.1rem; color:var(--text-light);">Skor Anda: <strong>${score} / ${items.length*5}</strong></p><button id="closeQuiz" class="btn btn-primary">Tutup</button></div>`;
                     document.getElementById('closeQuiz').addEventListener('click',()=>modal.style.display='none');
+                    try { incrementPracticeCount(); } catch(e) { console.warn(e); }
                 }
             },900);
         }
