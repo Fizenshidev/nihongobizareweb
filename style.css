@@ -1272,6 +1272,68 @@ body.dark .achievement-card {
     gap: 0.5rem;
 }
 
+/* Desktop-specific auth button styling */
+@media (min-width: 769px) {
+    /* Ensure nav uses full horizontal space */
+    .navbar .container { align-items: center; }
+
+    /* Style for login/register when user is not authenticated */
+    .no-auth-menu a.nav-link {
+        padding: 0.5rem 0.9rem;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text-dark);
+        font-weight: 600;
+    }
+
+    .no-auth-menu a.btn.btn-primary {
+        background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+        color: #fff;
+        border: none;
+        padding: 0.55rem 1rem;
+        box-shadow: var(--shadow-light);
+    }
+
+    .no-auth-menu a.nav-link:hover {
+        opacity: 0.95;
+        transform: translateY(-1px);
+    }
+
+    /* Style for authenticated user: profile + logout */
+    .auth-menu a.nav-link {
+        display: inline-flex;
+        gap: 0.6rem;
+        align-items: center;
+        padding: 0.35rem 0.6rem;
+        border-radius: 8px;
+        color: var(--text-dark);
+    }
+
+    .auth-menu a.nav-link img,
+    .auth-menu a.nav-link .avatar-small {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(0,0,0,0.06);
+    }
+
+    /* Emphasize username slightly */
+    .auth-menu a#profileLink span#userName {
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    /* Logout as subtle button */
+    .auth-menu a.logout-btn {
+        color: #dc3545 !important;
+        border: 1px solid rgba(220,53,69,0.08);
+        padding: 0.4rem 0.6rem;
+        background: rgba(220,53,69,0.02);
+    }
+}
+
 @media (max-width: 480px) {
     .section-title {
         font-size: 1.5rem;
