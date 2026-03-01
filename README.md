@@ -69,11 +69,3 @@ localStorage.setItem('userProfile', JSON.stringify({ practicesCompleted: 0, arti
 
 ## Lisensi & Catatan
 - Proyek ini bersifat demo/personal. Tidak ada backend production — jangan simpan data sensitif di `localStorage`.
-
----
-Jika Anda ingin, saya bisa:
-- Menambahkan `README.md` versi Bahasa Inggris.
-- Menambahkan contoh `kanji-readings.json` lengkap untuk N5.
-- Menjalankan commit & push perubahan (butuh akses git di mesin Anda).
-
-Mau lanjutkan dengan salah satu opsi di atas?
