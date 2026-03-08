@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Menu Test - Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        .test-info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .test-info ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .test-info li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <span class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-item active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="analytics.html" class="nav-item"><i class="fas fa-users"></i> Analytics Pengunjung</a></li>
+                    <li><a href="articles.html" class="nav-item"><i class="fas fa-newspaper"></i> Manajemen Artikel</a></li>
+                    <li><a href="users.html" class="nav-item"><i class="fas fa-user-friends"></i> User Management</a></li>
+                    <li><a href="staff.html" class="nav-item"><i class="fas fa-user-tie"></i> Manajemen Staff</a></li>
+                    <li><a href="database.html" class="nav-item"><i class="fas fa-database"></i> Database</a></li>
+                    <li><a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Pengaturan</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="adminLogout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <span class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                    <h1>Burger Menu Test</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="admin-profile">
+                        <span>Administrator</span>
+                        <img src="../asset/profile-default.jpg" alt="Admin" class="profile-avatar">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="dashboard-content">
+                <div class="test-info">
+                    <h3><i class="fas fa-info-circle"></i> Test Burger Menu & Logout</h3>
+                    <ul>
+                        <li><strong>Desktop:</strong> Klik ikon burger di sidebar header untuk collapse/expand</li>
+                        <li><strong>Mobile:</strong> Klik ikon burger di topbar untuk overlay sidebar</li>
+                        <li><strong>Logout:</strong> Klik "Logout" akan mengarah ke admin-login.html</li>
+                        <li><strong>Responsive:</strong> Behavior berbeda antara desktop dan mobile</li>
+                    </ul>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bars"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Burger Menu</h3>
+                            <p>Status: <span id="menuStatus">Closed</span></p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Screen Size</h3>
+                            <p><span id="screenSize">Desktop</span></p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Logout Test</h3>
+                            <p>Klik logout untuk test redirect</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+    <script>
+        // Test script for burger menu
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update screen size indicator
+            function updateScreenSize() {
+                const width = window.innerWidth;
+                const screenSize = document.getElementById('screenSize');
+                if (width <= 768) {
+                    screenSize.textContent = 'Mobile (< 768px)';
+                } else if (width <= 1024) {
+                    screenSize.textContent = 'Tablet (768-1024px)';
+                } else {
+                    screenSize.textContent = 'Desktop (> 1024px)';
+                }
+            }
+
+            updateScreenSize();
+            window.addEventListener('resize', updateScreenSize);
+
+            // Monitor sidebar state
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class') {
+                        const sidebar = document.querySelector('.sidebar');
+                        const menuStatus = document.getElementById('menuStatus');
+
+                        if (window.innerWidth <= 768) {
+                            // Mobile
+                            menuStatus.textContent = sidebar.classList.contains('active') ? 'Open (Overlay)' : 'Closed';
+                        } else {
+                            // Desktop
+                            menuStatus.textContent = sidebar.classList.contains('collapsed') ? 'Collapsed' : 'Expanded';
+                        }
+                    }
+                });
+            });
+
+            observer.observe(document.querySelector('.sidebar'), {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+
+            // Test logout functionality
+            const logoutBtn = document.getElementById('adminLogout');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Test logout - akan redirect ke admin-login.html. Lanjutkan?')) {
+                        // Simulate logout
+                        localStorage.removeItem('adminSession');
+                        localStorage.removeItem('secureAdminSession');
+                        localStorage.removeItem('currentAdminUser');
+                        alert('Logout berhasil! Mengarah ke admin-login.html...');
+                        window.location.href = 'admin-login.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

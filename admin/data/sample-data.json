@@ -1,0 +1,148 @@
+{
+  "staff": [
+    {
+      "id": 1,
+      "firstName": "Budi",
+      "lastName": "Santoso",
+      "email": "budi@nihongobizzare.com",
+      "role": "editor",
+      "department": "Content",
+      "status": "active",
+      "joinDate": "2026-02-15",
+      "lastLogin": "2026-03-08T14:30:00",
+      "permissions": ["can_delete_articles"],
+      "createdAt": "2026-02-15T10:00:00"
+    },
+    {
+      "id": 2,
+      "firstName": "Siti",
+      "lastName": "Nurhaliza",
+      "email": "siti@nihongobizzare.com",
+      "role": "moderator",
+      "department": "Moderation",
+      "status": "active",
+      "joinDate": "2026-02-20",
+      "lastLogin": "2026-03-08T13:15:00",
+      "permissions": ["can_ban_users"],
+      "createdAt": "2026-02-20T09:00:00"
+    },
+    {
+      "id": 3,
+      "firstName": "Ahmad",
+      "lastName": "Wijaya",
+      "email": "ahmad@nihongobizzare.com",
+      "role": "analyst",
+      "department": "Analytics",
+      "status": "active",
+      "joinDate": "2026-03-01",
+      "lastLogin": "2026-03-08T15:45:00",
+      "permissions": ["can_export_data", "can_view_all_data"],
+      "createdAt": "2026-03-01T08:00:00"
+    }
+  ],
+  "articles": [
+    {
+      "id": 1,
+      "title": "Pengenalan Hiragana",
+      "category": "hiragana",
+      "author": "Admin",
+      "publishDate": "2026-03-01",
+      "status": "published",
+      "views": 234,
+      "content": "Hiragana adalah salah satu sistem penulisan Jepang yang paling dasar...",
+      "image": "hiragana.jpg",
+      "tags": ["hiragana", "basic", "beginner"]
+    },
+    {
+      "id": 2,
+      "title": "Pengenalan Katakana",
+      "category": "katakana",
+      "author": "Admin",
+      "publishDate": "2026-02-28",
+      "status": "published",
+      "views": 189,
+      "content": "Katakana adalah sistem penulisan Jepang yang digunakan untuk kata serapan...",
+      "image": "katakana.jpg",
+      "tags": ["katakana", "basic", "beginner"]
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "john_doe",
+      "email": "john@example.com",
+      "joinDate": "2026-01-15",
+      "status": "active",
+      "level": "premium",
+      "lastActivity": "2 jam lalu",
+      "articlesRead": 45
+    },
+    {
+      "id": 2,
+      "username": "jane_smith",
+      "email": "jane@example.com",
+      "joinDate": "2026-02-10",
+      "status": "active",
+      "level": "regular",
+      "lastActivity": "1 jam lalu",
+      "articlesRead": 23
+    }
+  ],
+  "analytics": {
+    "period": "7days",
+    "totalSessions": 2543,
+    "uniqueVisitors": 1234,
+    "avgSessionDuration": "4m 32s",
+    "bounceRate": "35.2%",
+    "topPages": [
+      {
+        "page": "/article/hiragana.html",
+        "views": 892,
+        "avgTime": "5m 23s",
+        "bounceRate": "28.5%"
+      },
+      {
+        "page": "/article/katakana.html",
+        "views": 756,
+        "avgTime": "4m 51s",
+        "bounceRate": "32.1%"
+      }
+    ],
+    "trafficSource": {
+      "direct": 45,
+      "organic": 30,
+      "referral": 15,
+      "social": 10
+    },
+    "devices": {
+      "desktop": 55,
+      "mobile": 35,
+      "tablet": 10
+    }
+  },
+  "database": {
+    "size": "145.2 MB",
+    "totalRecords": 15432,
+    "lastBackup": "1 jam lalu",
+    "tables": [
+      {
+        "name": "users",
+        "rows": 1234,
+        "size": "2.5 MB",
+        "type": "InnoDB"
+      },
+      {
+        "name": "articles",
+        "rows": 456,
+        "size": "5.8 MB",
+        "type": "InnoDB"
+      },
+      {
+        "name": "comments",
+        "rows": 3245,
+        "size": "1.2 MB",
+        "type": "InnoDB"
+      }
+    ]
+  }
+}

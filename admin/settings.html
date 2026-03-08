@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan - Admin Nihongo Bizzare</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <span class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="analytics.html" class="nav-item"><i class="fas fa-users"></i> Analytics Pengunjung</a></li>
+                    <li><a href="articles.html" class="nav-item"><i class="fas fa-newspaper"></i> Manajemen Artikel</a></li>
+                    <li><a href="users.html" class="nav-item"><i class="fas fa-user-friends"></i> User Management</a></li>
+                    <li><a href="staff.html" class="nav-item"><i class="fas fa-user-tie"></i> Manajemen Staff</a></li>
+                    <li><a href="database.html" class="nav-item"><i class="fas fa-database"></i> Database</a></li>
+                    <li><a href="settings.html" class="nav-item active"><i class="fas fa-cog"></i> Pengaturan</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="adminLogout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <span class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                    <h1>Pengaturan</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="admin-profile">
+                        <span id="adminName">Administrator</span>
+                        <img src="../asset/profile-default.jpg" alt="Admin" class="profile-avatar">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Content -->
+            <div class="settings-content">
+                <!-- Settings Tabs -->
+                <div class="settings-tabs">
+                    <button class="tab-btn active" data-tab="general">
+                        <i class="fas fa-cog"></i> Umum
+                    </button>
+                    <button class="tab-btn" data-tab="security">
+                        <i class="fas fa-lock"></i> Keamanan
+                    </button>
+                    <button class="tab-btn" data-tab="email">
+                        <i class="fas fa-envelope"></i> Email
+                    </button>
+                    <button class="tab-btn" data-tab="advanced">
+                        <i class="fas fa-sliders-h"></i> Lanjutan
+                    </button>
+                </div>
+
+                <!-- General Settings -->
+                <div class="tab-content active" id="general-tab">
+                    <div class="settings-section">
+                        <h3>Pengaturan Umum Website</h3>
+                        <form id="generalForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="siteName">Nama Website</label>
+                                <input type="text" id="siteName" value="Nihongo Bizzare" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="siteDescription">Deskripsi Website</label>
+                                <textarea id="siteDescription" rows="4">Platform belajar bahasa Jepang untuk pemula</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="siteUrl">URL Website</label>
+                                <input type="url" id="siteUrl" value="https://nihongobizzare.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adminEmail">Email Admin</label>
+                                <input type="email" id="adminEmail" value="admin@nihongobizzare.com" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Security Settings -->
+                <div class="tab-content" id="security-tab">
+                    <div class="settings-section">
+                        <h3>Pengaturan Keamanan</h3>
+                        <form id="securityForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="currentPassword">Password Saat Ini</label>
+                                <input type="password" id="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">Password Baru</label>
+                                <input type="password" id="newPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Konfirmasi Password</label>
+                                <input type="password" id="confirmPassword">
+                            </div>
+                            <div class="form-group checkbox">
+                                <input type="checkbox" id="twoFactor">
+                                <label for="twoFactor">Aktifkan Two-Factor Authentication</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Keamanan</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Email Settings -->
+                <div class="tab-content" id="email-tab">
+                    <div class="settings-section">
+                        <h3>Pengaturan Email</h3>
+                        <form id="emailForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="smtpHost">SMTP Host</label>
+                                <input type="text" id="smtpHost" placeholder="smtp.gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="smtpPort">SMTP Port</label>
+                                <input type="number" id="smtpPort" value="587">
+                            </div>
+                            <div class="form-group">
+                                <label for="smtpUsername">SMTP Username</label>
+                                <input type="email" id="smtpUsername">
+                            </div>
+                            <div class="form-group">
+                                <label for="smtpPassword">SMTP Password</label>
+                                <input type="password" id="smtpPassword">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Simpan Pengaturan Email</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Advanced Settings -->
+                <div class="tab-content" id="advanced-tab">
+                    <div class="settings-section">
+                        <h3>Pengaturan Lanjutan</h3>
+                        <form id="advancedForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="cacheTimeout">Cache Timeout (detik)</label>
+                                <input type="number" id="cacheTimeout" value="3600">
+                            </div>
+                            <div class="form-group checkbox">
+                                <input type="checkbox" id="maintenanceMode">
+                                <label for="maintenanceMode">Mode Pemeliharaan</label>
+                            </div>
+                            <div class="form-group checkbox">
+                                <input type="checkbox" id="debugMode">
+                                <label for="debugMode">Mode Debug</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="apiKey">API Key</label>
+                                <div class="api-key-box">
+                                    <input type="text" id="apiKey" readonly value="sk_live_xxxxxxxxxxxxx">
+                                    <button type="button" class="btn btn-secondary">Regenerasi</button>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Simpan Pengaturan Lanjutan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

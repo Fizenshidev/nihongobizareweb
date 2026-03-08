@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Nihongo Bizzare</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <span class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-item active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="analytics.html" class="nav-item"><i class="fas fa-users"></i> Analytics Pengunjung</a></li>
+                    <li><a href="articles.html" class="nav-item"><i class="fas fa-newspaper"></i> Manajemen Artikel</a></li>
+                    <li><a href="users.html" class="nav-item"><i class="fas fa-user-friends"></i> User Management</a></li>
+                    <li><a href="staff.html" class="nav-item"><i class="fas fa-user-tie"></i> Manajemen Staff</a></li>
+                    <li><a href="database.html" class="nav-item"><i class="fas fa-database"></i> Database</a></li>
+                    <li><a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Pengaturan</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="adminLogout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <span class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="admin-profile">
+                        <span id="adminName">Administrator</span>
+                        <img src="../asset/profile-default.jpg" alt="Admin" class="profile-avatar">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon visitors">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Pengunjung</h3>
+                            <p class="stat-number" id="totalVisitors">0</p>
+                            <span class="stat-change positive">+12% dari kemarin</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon users">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Pengguna Terdaftar</h3>
+                            <p class="stat-number" id="totalUsers">0</p>
+                            <span class="stat-change positive">+5% bulan ini</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon articles">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Artikel</h3>
+                            <p class="stat-number" id="totalArticles">0</p>
+                            <span class="stat-change neutral">5 artikel baru</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon activity">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Aktivitas Hari Ini</h3>
+                            <p class="stat-number" id="todayActivity">0</p>
+                            <span class="stat-change positive">+8% aktif</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <h3>Pengunjung Per Hari (7 Hari Terakhir)</h3>
+                        <canvas id="visitorsChart"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Sumber Traffic</h3>
+                        <canvas id="trafficSourceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="activity-section">
+                    <div class="activity-card">
+                        <h3>Aktivitas Terbaru</h3>
+                        <div class="activity-list" id="activityList">
+                            <div class="activity-item">
+                                <i class="fas fa-user-plus"></i>
+                                <div class="activity-info">
+                                    <p>Pengguna baru mendaftar</p>
+                                    <small>5 menit yang lalu</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-card">
+                        <h3>Artikel Terbaru</h3>
+                        <div class="articles-list" id="articlesList">
+                            <p class="no-data">Belum ada artikel</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        // Enhanced Security Session Validation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication on page load
+            if (!authSystem.isSecurelyAuthenticated()) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            // Update admin name display
+            const adminName = document.getElementById('adminName');
+            if (adminName && authSystem.getCurrentSecureUser()) {
+                adminName.textContent = authSystem.getUserName();
+            }
+
+            // Setup logout functionality
+            const logoutBtn = document.getElementById('adminLogout');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Apakah Anda yakin ingin logout?')) {
+                        authSystem.secureLogout();
+                        window.location.href = 'admin-login.html';
+                    }
+                });
+            }
+
+            // Periodic session validation
+            setInterval(() => {
+                if (!authSystem.isSecurelyAuthenticated()) {
+                    alert('Sesi Anda telah berakhir. Silakan login kembali.');
+                    window.location.href = 'admin-login.html';
+                }
+            }, 5 * 60 * 1000); // Check every 5 minutes
+
+            // Extend session on user activity
+            let activityTimeout;
+            function resetActivityTimeout() {
+                clearTimeout(activityTimeout);
+                activityTimeout = setTimeout(() => {
+                    authSystem.extendSession();
+                }, 10 * 60 * 1000); // Extend after 10 minutes of activity
+            }
+
+            // Track user activity
+            ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
+                document.addEventListener(event, resetActivityTimeout, true);
+            });
+            resetActivityTimeout();
+        });
+
+        // Prevent back button navigation to login page
+        window.addEventListener('load', function() {
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+        });
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function() {
+            if (!authSystem.isSecurelyAuthenticated()) {
+                window.location.href = 'admin-login.html';
+            }
+        });
+    </script>
+</body>
+</html>

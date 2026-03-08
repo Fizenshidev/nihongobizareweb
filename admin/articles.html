@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Artikel - Admin Nihongo Bizzare</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <span class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="analytics.html" class="nav-item"><i class="fas fa-users"></i> Analytics Pengunjung</a></li>
+                    <li><a href="articles.html" class="nav-item active"><i class="fas fa-newspaper"></i> Manajemen Artikel</a></li>
+                    <li><a href="users.html" class="nav-item"><i class="fas fa-user-friends"></i> User Management</a></li>
+                    <li><a href="staff.html" class="nav-item"><i class="fas fa-user-tie"></i> Manajemen Staff</a></li>
+                    <li><a href="database.html" class="nav-item"><i class="fas fa-database"></i> Database</a></li>
+                    <li><a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Pengaturan</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="adminLogout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <span class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                    <h1>Manajemen Artikel</h1>
+                </div>
+                <div class="topbar-right">
+                    <button class="btn btn-primary" id="newArticleBtn">
+                        <i class="fas fa-plus"></i> Artikel Baru
+                    </button>
+                </div>
+            </div>
+
+            <!-- Articles Content -->
+            <div class="articles-content">
+                <!-- Filter and Search -->
+                <div class="filter-section">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchArticles" placeholder="Cari artikel...">
+                    </div>
+                    <div class="filter-group">
+                        <label>Kategori:</label>
+                        <select id="categoryFilter">
+                            <option value="">Semua Kategori</option>
+                            <option value="hiragana">Hiragana</option>
+                            <option value="katakana">Katakana</option>
+                            <option value="grammar">Grammar</option>
+                            <option value="vocabulary">Vocabulary</option>
+                            <option value="particles">Particles</option>
+                            <option value="culture">Budaya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Articles Table -->
+                <div class="table-section">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Kategori</th>
+                                <th>Penulis</th>
+                                <th>Tanggal Publikasi</th>
+                                <th>Status</th>
+                                <th>Views</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="articlesTableBody">
+                            <tr>
+                                <td>Pengenalan Hiragana</td>
+                                <td><span class="badge category-hiragana">Hiragana</span></td>
+                                <td>Admin</td>
+                                <td>2026-03-01</td>
+                                <td><span class="badge status-published">Dipublikasikan</span></td>
+                                <td>234</td>
+                                <td class="actions">
+                                    <button class="btn-icon edit" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete" title="Hapus"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: Add/Edit Article -->
+    <div class="modal" id="articleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Artikel Baru</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="articleForm" class="article-form">
+                <div class="form-group">
+                    <label for="articleTitle">Judul Artikel</label>
+                    <input type="text" id="articleTitle" placeholder="Masukkan judul artikel" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="articleCategory">Kategori</label>
+                        <select id="articleCategory" required>
+                            <option value="">Pilih kategori</option>
+                            <option value="hiragana">Hiragana</option>
+                            <option value="katakana">Katakana</option>
+                            <option value="grammar">Grammar</option>
+                            <option value="vocabulary">Vocabulary</option>
+                            <option value="particles">Particles</option>
+                            <option value="culture">Budaya</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleAuthor">Penulis</label>
+                        <input type="text" id="articleAuthor" placeholder="Nama penulis" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="articleContent">Konten Artikel</label>
+                    <textarea id="articleContent" placeholder="Tulis konten artikel..." rows="8" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="articleImage">Gambar/Thumbnail</label>
+                    <input type="file" id="articleImage" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label for="articleTags">Tags (pisahkan dengan koma)</label>
+                    <input type="text" id="articleTags" placeholder="tag1, tag2, tag3">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Artikel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

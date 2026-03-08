@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Admin Security System</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        .result { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🛡️ Test Sistem Keamanan Admin</h1>
+
+    <div class="test-section">
+        <h3>Test 1: Validasi Session</h3>
+        <button onclick="testSessionValidation()">Test Session Validation</button>
+        <div id="sessionResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 2: Rate Limiting</h3>
+        <button onclick="testRateLimiting()">Test Rate Limiting (5 attempts)</button>
+        <div id="rateLimitResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 3: Password Hashing</h3>
+        <button onclick="testPasswordHashing()">Test Password Hashing</button>
+        <div id="hashResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 4: CSRF Protection</h3>
+        <button onclick="testCSRF()">Test CSRF Token</button>
+        <div id="csrfResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 5: Login Simulation</h3>
+        <input type="text" id="testUsername" placeholder="Username" value="admin">
+        <input type="password" id="testPassword" placeholder="Password" value="admin123Secure!@#">
+        <button onclick="testLogin()">Test Login</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Actions</h3>
+        <button onclick="clearAllData()">Clear All Test Data</button>
+        <button onclick="goToLogin()">Go to Login Page</button>
+        <button onclick="goToDashboard()">Go to Dashboard</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="auth-admin.js"></script>
+    <script>
+        function showResult(elementId, message, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            element.parentElement.className = `test-section ${isSuccess ? 'success' : 'error'}`;
+        }
+
+        function testSessionValidation() {
+            try {
+                const isAuthenticated = authSystem.isSecurelyAuthenticated();
+                const user = authSystem.getCurrentSecureUser();
+
+                let message = `<strong>Session Status:</strong> ${isAuthenticated ? 'Authenticated' : 'Not Authenticated'}`;
+                if (user) {
+                    message += `<br><strong>User:</strong> ${user.username} (${user.role})`;
+                    message += `<br><strong>Expires:</strong> ${new Date(user.expiresAt).toLocaleString()}`;
+                }
+
+                showResult('sessionResult', message, isAuthenticated);
+            } catch (error) {
+                showResult('sessionResult', `Error: ${error.message}`, false);
+            }
+        }
+
+        async function testRateLimiting() {
+            const maxAttempts = 5;
+            let results = [];
+
+            for (let i = 1; i <= maxAttempts + 1; i++) {
+                try {
+                    const result = authSystem.secureAdminLogin('wrong', 'wrong', 'invalid-csrf');
+                    results.push(`Attempt ${i}: ${result ? 'Success' : 'Failed'}`);
+                } catch (error) {
+                    results.push(`Attempt ${i}: Error - ${error.message}`);
+                }
+                await delay(100);
+            }
+
+            const isLocked = authSystem.isLockedOut();
+            const lockoutTime = authSystem.getLockoutTimeRemaining();
+
+            let message = results.join('<br>');
+            message += `<br><br><strong>Lockout Status:</strong> ${isLocked ? 'Locked' : 'Not Locked'}`;
+            if (lockoutTime > 0) {
+                message += `<br><strong>Lockout Remaining:</strong> ${Math.ceil(lockoutTime / 1000 / 60)} minutes`;
+            }
+
+            showResult('rateLimitResult', message, !isLocked);
+        }
+
+        function testPasswordHashing() {
+            const password = 'admin123Secure!@#';
+            const username = 'admin';
+            const hashed = CryptoJS.SHA256(password + username).toString();
+
+            const message = `
+                <strong>Original Password:</strong> ${password}<br>
+                <strong>Username:</strong> ${username}<br>
+                <strong>SHA-256 Hash:</strong> ${hashed}<br>
+                <strong>Hash Length:</strong> ${hashed.length} characters
+            `;
+
+            showResult('hashResult', message);
+        }
+
+        function testCSRF() {
+            const token = authSystem.generateSecureToken ? authSystem.generateSecureToken() : 'N/A';
+            const isValid = token.length >= 32;
+
+            const message = `
+                <strong>CSRF Token Generated:</strong> ${token.substring(0, 16)}...<br>
+                <strong>Token Length:</strong> ${token.length}<br>
+                <strong>Validation:</strong> ${isValid ? 'Valid' : 'Invalid'}
+            `;
+
+            showResult('csrfResult', message, isValid);
+        }
+
+        async function testLogin() {
+            const username = document.getElementById('testUsername').value;
+            const password = document.getElementById('testPassword').value;
+            const hashedPassword = CryptoJS.SHA256(password + username).toString();
+
+            try {
+                const result = await authSystem.secureAdminLogin(username, hashedPassword, authSystem.generateSecureToken());
+
+                let message = `<strong>Login Result:</strong> ${result ? 'Success' : 'Failed'}`;
+                if (result) {
+                    message += `<br><strong>User:</strong> ${result.username}`;
+                    message += `<br><strong>Role:</strong> ${result.role}`;
+                    message += `<br><strong>Session Token:</strong> ${result.sessionToken.substring(0, 16)}...`;
+                }
+
+                showResult('loginResult', message, !!result);
+            } catch (error) {
+                showResult('loginResult', `Error: ${error.message}`, false);
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('This will clear all session and test data. Continue?')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                location.reload();
+            }
+        }
+
+        function goToLogin() {
+            window.open('admin-login.html', '_blank');
+        }
+
+        function goToDashboard() {
+            window.open('index.html', '_blank');
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Auto-run session test on load
+        document.addEventListener('DOMContentLoaded', () => {
+            testSessionValidation();
+        });
+    </script>
+</body>
+</html>

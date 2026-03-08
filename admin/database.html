@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Management - Admin Nihongo Bizzare</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <span class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="analytics.html" class="nav-item"><i class="fas fa-users"></i> Analytics Pengunjung</a></li>
+                    <li><a href="articles.html" class="nav-item"><i class="fas fa-newspaper"></i> Manajemen Artikel</a></li>
+                    <li><a href="users.html" class="nav-item"><i class="fas fa-user-friends"></i> User Management</a></li>
+                    <li><a href="staff.html" class="nav-item"><i class="fas fa-user-tie"></i> Manajemen Staff</a></li>
+                    <li><a href="database.html" class="nav-item active"><i class="fas fa-database"></i> Database</a></li>
+                    <li><a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Pengaturan</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="adminLogout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <span class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                    <h1>Database Management</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="admin-profile">
+                        <span id="adminName">Administrator</span>
+                        <img src="../asset/profile-default.jpg" alt="Admin" class="profile-avatar">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database Content -->
+            <div class="database-content">
+                <!-- Database Stats -->
+                <div class="db-stats-grid">
+                    <div class="db-stat">
+                        <i class="fas fa-hdd"></i>
+                        <h4>Ukuran Database</h4>
+                        <p>145.2 MB</p>
+                    </div>
+                    <div class="db-stat">
+                        <i class="fas fa-table"></i>
+                        <h4>Total Tabel</h4>
+                        <p>12</p>
+                    </div>
+                    <div class="db-stat">
+                        <i class="fas fa-database"></i>
+                        <h4>Total Records</h4>
+                        <p>15,432</p>
+                    </div>
+                    <div class="db-stat">
+                        <i class="fas fa-clock"></i>
+                        <h4>Backup Terakhir</h4>
+                        <p>1 jam lalu</p>
+                    </div>
+                </div>
+
+                <!-- Database Operations -->
+                <div class="db-operations">
+                    <h3>Operasi Database</h3>
+                    <div class="operations-grid">
+                        <div class="operation-card">
+                            <i class="fas fa-download"></i>
+                            <h4>Backup Database</h4>
+                            <p>Buat backup lengkap database</p>
+                            <button class="btn btn-primary" id="backupBtn">Backup Sekarang</button>
+                        </div>
+                        <div class="operation-card">
+                            <i class="fas fa-upload"></i>
+                            <h4>Restore Database</h4>
+                            <p>Pulihkan dari file backup</p>
+                            <button class="btn btn-secondary" id="restoreBtn">Pilih File</button>
+                        </div>
+                        <div class="operation-card">
+                            <i class="fas fa-optimize"></i>
+                            <h4>Optimize Database</h4>
+                            <p>Optimalkan performa database</p>
+                            <button class="btn btn-secondary" id="optimizeBtn">Jalankan</button>
+                        </div>
+                        <div class="operation-card">
+                            <i class="fas fa-sync"></i>
+                            <h4>Repair Database</h4>
+                            <p>Perbaiki data yang rusak</p>
+                            <button class="btn btn-secondary" id="repairBtn">Perbaiki</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Tables -->
+                <div class="db-tables">
+                    <h3>Tabel Database</h3>
+                    <div class="table-section">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama Tabel</th>
+                                    <th>Rows</th>
+                                    <th>Ukuran</th>
+                                    <th>Tipe</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablesTableBody">
+                                <tr>
+                                    <td>users</td>
+                                    <td>1,234</td>
+                                    <td>2.5 MB</td>
+                                    <td>InnoDB</td>
+                                    <td class="actions">
+                                        <button class="btn-icon view" title="Lihat"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon download" title="Export"><i class="fas fa-download"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>articles</td>
+                                    <td>456</td>
+                                    <td>5.8 MB</td>
+                                    <td>InnoDB</td>
+                                    <td class="actions">
+                                        <button class="btn-icon view" title="Lihat"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon download" title="Export"><i class="fas fa-download"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>comments</td>
+                                    <td>3,245</td>
+                                    <td>1.2 MB</td>
+                                    <td>InnoDB</td>
+                                    <td class="actions">
+                                        <button class="btn-icon view" title="Lihat"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon download" title="Export"><i class="fas fa-download"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

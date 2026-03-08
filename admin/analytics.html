@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Pengunjung - Admin Nihongo Bizzare</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <span class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="analytics.html" class="nav-item active"><i class="fas fa-users"></i> Analytics Pengunjung</a></li>
+                    <li><a href="articles.html" class="nav-item"><i class="fas fa-newspaper"></i> Manajemen Artikel</a></li>
+                    <li><a href="users.html" class="nav-item"><i class="fas fa-user-friends"></i> User Management</a></li>
+                    <li><a href="staff.html" class="nav-item"><i class="fas fa-user-tie"></i> Manajemen Staff</a></li>
+                    <li><a href="database.html" class="nav-item"><i class="fas fa-database"></i> Database</a></li>
+                    <li><a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Pengaturan</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="adminLogout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <span class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                    <h1>Analytics Pengunjung</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="admin-profile">
+                        <span id="adminName">Administrator</span>
+                        <img src="../asset/profile-default.jpg" alt="Admin" class="profile-avatar">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Content -->
+            <div class="analytics-content">
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label>Periode:</label>
+                        <select id="periodFilter">
+                            <option value="7days">7 Hari Terakhir</option>
+                            <option value="30days">30 Hari Terakhir</option>
+                            <option value="90days">90 Hari Terakhir</option>
+                            <option value="all">Semua Waktu</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" id="exportBtn">
+                        <i class="fas fa-download"></i> Export Laporan
+                    </button>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Total Sesi</h4>
+                        <p class="metric-value">2,543</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Pengunjung Unik</h4>
+                        <p class="metric-value">1,234</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Rata-rata Sesi</h4>
+                        <p class="metric-value">4m 32s</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Bounce Rate</h4>
+                        <p class="metric-value">35.2%</p>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>Traffic Harian</h3>
+                        <canvas id="dailyTrafficChart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Device Pengunjung</h3>
+                        <canvas id="deviceChart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Browser Teratas</h3>
+                        <canvas id="browserChart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Lokasi Pengunjung</h3>
+                        <canvas id="locationChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Top Pages -->
+                <div class="table-section">
+                    <h3>Halaman Paling Banyak Dikunjungi</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Halaman</th>
+                                <th>Views</th>
+                                <th>Waktu Rata-rata</th>
+                                <th>Bounce Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>/article/hiragana.html</td>
+                                <td>892</td>
+                                <td>5m 23s</td>
+                                <td>28.5%</td>
+                            </tr>
+                            <tr>
+                                <td>/article/katakana.html</td>
+                                <td>756</td>
+                                <td>4m 51s</td>
+                                <td>32.1%</td>
+                            </tr>
+                            <tr>
+                                <td>/article/grammar.html</td>
+                                <td>645</td>
+                                <td>6m 12s</td>
+                                <td>25.8%</td>
+                            </tr>
+                            <tr>
+                                <td>/article/vocabulary.html</td>
+                                <td>534</td>
+                                <td>3m 45s</td>
+                                <td>42.3%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        // Security Session Validation for Analytics Page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication on page load
+            if (!authSystem.isSecurelyAuthenticated()) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            // Check if user can view analytics
+            if (!authSystem.canViewAnalytics()) {
+                alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update admin name display
+            const adminName = document.getElementById('adminName');
+            if (adminName && authSystem.getCurrentSecureUser()) {
+                adminName.textContent = authSystem.getUserName();
+            }
+
+            // Setup logout functionality
+            const logoutBtn = document.getElementById('adminLogout');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Apakah Anda yakin ingin logout?')) {
+                        authSystem.secureLogout();
+                        window.location.href = 'admin-login.html';
+                    }
+                });
+            }
+
+            // Periodic session validation
+            setInterval(() => {
+                if (!authSystem.isSecurelyAuthenticated()) {
+                    alert('Sesi Anda telah berakhir. Silakan login kembali.');
+                    window.location.href = 'admin-login.html';
+                }
+            }, 5 * 60 * 1000); // Check every 5 minutes
+        });
+    </script>
+</body>
+</html>
